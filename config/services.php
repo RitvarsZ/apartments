@@ -31,4 +31,7 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'ss' => [
+        'feed' => env('SS_RSS_FEED', 'https://www.ss.lv/lv/real-estate/flats/riga/hand_over/rss/')
+    ]
 ];
