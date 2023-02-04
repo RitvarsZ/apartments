@@ -1,10 +1,8 @@
 <?php
 
 use App\Http\Controllers\ApartmentController;
-use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+use Feed;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,3 +17,9 @@ use Inertia\Inertia;
 
 Route::get('/', [ApartmentController::class, 'index'])->name('apartments.index');
 Route::get('/apartments/{apartment}', [ApartmentController::class, 'show'])->name('apartments.show');
+
+Route::get('/test/rss', function () {
+    $rss = Feed::loadRss(config('services.ss.feed'));
+
+    dd($rss->toArray());
+});
