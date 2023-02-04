@@ -18,7 +18,7 @@ class ApartmentController extends Controller
 
     public function show(Apartment $apartment)
     {
-        return view('apartments.show', [
+        return Inertia::render('Apartments/Show', [
             'apartment' => $apartment,
         ]);
     }
