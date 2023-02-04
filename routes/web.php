@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\ApartmentController;
+use Geocoder\Query\GeocodeQuery;
 use Illuminate\Support\Facades\Route;
-use Feed;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,4 +22,10 @@ Route::get('/test/rss', function () {
     $rss = Feed::loadRss(config('services.ss.feed'));
 
     dd($rss->toArray());
+});
+
+Route::get('/test/geocode', function () {
+    $result = app('geocoder')->geocodeQuery(GeocodeQuery::create('13a, Kuldīgas, Rīga, Latvija')->withLocale('lv')->withLimit(1));
+
+    dd($result);
 });

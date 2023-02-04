@@ -186,6 +186,7 @@ return [
          * Package Service Providers...
          */
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+        Geocoder\Laravel\Providers\GeocoderService::class,
 
         /*
          * Application Service Providers...
