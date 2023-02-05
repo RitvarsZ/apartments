@@ -7,6 +7,8 @@ import { usePage } from '@inertiajs/vue3'
 
 const props = defineProps({
   apartments: Array,
+  seenApartments: Array,
+  favoriteApartments: Array,
   selectedId: { type: Number, default: null },
 });
 
@@ -18,6 +20,13 @@ const cluster = computed(() => {
   return {
     type: 'FeatureCollection',
     features: props.apartments.map((apartment) => {
+      const getState = () => {
+        if (props.selectedId === apartment.id) return 'selected';
+        if (props.favoriteApartments.includes(apartment.id)) return 'favorite';
+        if (props.seenApartments.includes(apartment.id)) return 'seen';
+        return 'unseen';
+      }
+
       return {
         type: 'Feature',
         geometry: {
@@ -26,7 +35,7 @@ const cluster = computed(() => {
         },
         properties: {
           id: apartment.id,
-          seenByUser: props.selectedId === apartment.id ? 'selected' : apartment.seen_by_user ? 'true' : 'false',
+          state: getState(),
         },
       };
     }),
@@ -48,7 +57,7 @@ defineEmits(['feature-click']);
 <template>
   <MapboxMap :access-token="mapboxToken"
     style="height: 90vh;"
-    mapStyle="mapbox://styles/mapbox/streets-v11"
+    mapStyle="mapbox://styles/mapbox/streets-v12"
     :center="mapCenter"
     :zoom="mapZoom"
     @mb-created="(map) => mapboxMap = map">
@@ -63,10 +72,11 @@ defineEmits(['feature-click']);
         :unclusteredPointPaint="{
           'circle-color': [
             'match',
-            ['get', 'seenByUser'],
-            'false', '#223b53',
-            'true', '#bbb',
+            ['get', 'state'],
+            'unseen', '#223b53',
+            'seen', '#bbb',
             'selected', '#51bbd6',
+            'favorite', '#fbb03b',
             /* other */ '#ccc'
           ],
           'circle-radius': [

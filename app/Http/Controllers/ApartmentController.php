@@ -21,10 +21,13 @@ class ApartmentController extends Controller
 
     public function map()
     {
+        $user = Auth::user();
         $apartments = Apartment::all();
 
         return Inertia::render('Apartments/Map', [
             'apartments' => $apartments,
+            'seen_apartments' => $user ? $user->seenApartments()->pluck('id') : [],
+            'favorite_apartments' => $user ? $user->favoriteApartments()->pluck('id') : [],
         ]);
     }
     
