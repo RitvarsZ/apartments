@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('apartments', function (Blueprint $table) {
             $table->id();
             $table->string('link')->unique();
+            $table->string('image_thumbnail')->nullable();
             $table->string('title');
             $table->dateTime('published_at');
             $table->string('city');
@@ -25,6 +26,7 @@ return new class extends Migration
             $table->string('floor');
             $table->integer('m2');
             $table->float('price', 8, 2);
+            $table->string('price_unit')->nullable();
             $table->float('price_per_m2', 8, 2);
             $table->string('series')->nullable();
             $table->float('latitude', 10, 7);

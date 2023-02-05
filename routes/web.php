@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApartmentController;
+use App\Http\Services\RssParserService;
 use Geocoder\Query\GeocodeQuery;
 use Illuminate\Support\Facades\Route;
 
@@ -18,10 +19,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [ApartmentController::class, 'index'])->name('apartments.index');
 Route::get('/apartments/{apartment}', [ApartmentController::class, 'show'])->name('apartments.show');
 
-Route::get('/test/rss', function () {
+Route::get('/test/rss', function (RssParserService $rssParserService) {
     $rss = Feed::loadRss(config('services.ss.feed'));
 
-    dd($rss->toArray());
+    dd($rssParserService->parseApartments($rss));
 });
 
 Route::get('/test/geocode', function () {
