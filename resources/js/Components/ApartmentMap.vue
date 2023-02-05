@@ -21,8 +21,8 @@ const cluster = computed(() => {
     type: 'FeatureCollection',
     features: props.apartments.map((apartment) => {
       const getState = () => {
-        if (props.selectedId === apartment.id) return 'selected';
         if (props.favoriteApartments.includes(apartment.id)) return 'favorite';
+        if (props.selectedId === apartment.id) return 'selected';
         if (props.seenApartments.includes(apartment.id)) return 'seen';
         return 'unseen';
       }
@@ -47,6 +47,7 @@ const zoomToFeature = (feature) => {
     center: feature.geometry.coordinates,
     zoom: 15,
     duration: 1000,
+    offset: [0, -150],
   });
 }
 
@@ -75,8 +76,8 @@ defineEmits(['feature-click']);
             ['get', 'state'],
             'unseen', '#223b53',
             'seen', '#bbb',
-            'selected', '#51bbd6',
-            'favorite', '#fbb03b',
+            'selected', '#4264fb',
+            'favorite', '#cb0303',
             /* other */ '#ccc'
           ],
           'circle-radius': [

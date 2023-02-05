@@ -6,6 +6,7 @@ import ApartmentMap from '@/Components/ApartmentMap.vue';
 import ApartmentPreview from '@/Components/ApartmentPreview.vue';
 import { ref } from 'vue';
 import { useSeen } from '@/Composables/seen.js';
+import { useFavorite } from '@/Composables/favorite';
 
 const props = defineProps({
   apartments: Array,
@@ -23,6 +24,16 @@ const selectApartment = (id) => {
   }
 }
 
+const toggleFavorite = (id) => {
+  useFavorite(id).then((isFavorite) => {
+    if (isFavorite) {
+      favoriteApartments.value.push(id);
+    } else {
+      favoriteApartments.value = favoriteApartments.value.filter((favoriteId) => favoriteId !== id);
+    }
+  }).catch();
+}
+
 const seenApartments = ref(props.seen_apartments);
 const favoriteApartments = ref(props.favorite_apartments);
 
@@ -37,6 +48,10 @@ const favoriteApartments = ref(props.favorite_apartments);
       :favoriteApartments="favoriteApartments"
       :selectedId="selectedApartment?.id"
       @feature-click="selectApartment"/>
-    <ApartmentPreview :apartment="selectedApartment" @close="selectedApartment = null" />
+    <ApartmentPreview
+      :apartment="selectedApartment"
+      :isFavorite="favoriteApartments.includes(selectedApartment?.id)"
+      @close="selectedApartment = null"
+      @set-favorite="toggleFavorite"/>
   </GuestLayout>
 </template>
