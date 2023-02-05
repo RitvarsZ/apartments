@@ -58,6 +58,7 @@ defineEmits(['feature-click']);
           'circle-color': '#ea473a',
           'circle-radius': 8,
         }"
+        @mb-cluster-click="(cluster) => { $emit('feature-click', null) }"
         @mb-feature-click="(feature) => { zoomToFeature(feature); $emit('feature-click', feature.properties.id) }">
       </MapboxCluster>
   </MapboxMap>
