@@ -3,11 +3,13 @@ import { MapboxMap, MapboxCluster } from '@studiometa/vue-mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { computed, ref } from '@vue/reactivity';
 import { defineEmits } from 'vue';
+import { usePage } from '@inertiajs/vue3'
 
 const props = defineProps({
   apartments: Array,
 });
 
+const mapboxToken = usePage().props.mapbox.token;
 const mapCenter = ref([24.162616, 56.966349]);
 const mapZoom = ref(7);
 const mapboxMap = ref(null);
@@ -42,7 +44,7 @@ defineEmits(['feature-click']);
 </script>
 
 <template>
-  <MapboxMap access-token="pk.eyJ1Ijoicml0dmFycyIsImEiOiJjankzNGhxNHkwczZnM25vODI3MzB0dTFlIn0.Ye_dkuH0AqSYLIyC1SXmHw"
+  <MapboxMap :access-token="mapboxToken"
     style="height: 90vh;"
     mapStyle="mapbox://styles/mapbox/streets-v11"
     :center="mapCenter"

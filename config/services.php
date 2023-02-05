@@ -34,5 +34,9 @@ return [
     'ss' => [
         'feed' => env('SS_RSS_FEED', 'https://www.ss.lv/lv/real-estate/flats/riga/hand_over/rss/'),
         'listing_expiry_days' => env('SS_LISTING_EXPIRY_DAYS', 7),
-    ]
+    ],
+
+    'mapbox' => [
+        'token' => env('MAPBOX_TOKEN', ''),
+    ],
 ];

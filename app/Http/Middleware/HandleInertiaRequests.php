@@ -39,6 +39,9 @@ class HandleInertiaRequests extends Middleware
                     'location' => $request->url(),
                 ]);
             },
+            'mapbox' => [
+                'token' => config('services.mapbox.token'),
+            ],
         ]);
     }
 }
