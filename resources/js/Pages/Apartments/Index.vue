@@ -1,24 +1,29 @@
 
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
+import GuestLayout from '@/Layouts/GuestLayout.vue';
+import ApartmentCard from '@/Components/ApartmentCard.vue';
 
 defineProps({
   apartments: Array,
 });
+
 </script>
 
 <template>
-  <Head title="Welcome" />
+  <Head title="Saraksts" />
 
-  <div>
-    <h1 class="text-3xl font-bold mb-4">Apartments</h1>
+  <GuestLayout>
+    <div>
+      <h1 class="text-3xl font-bold mb-4">Dzīvokļu saraksts</h1>
 
-    <ul>
-      <li v-for="apartment in apartments" :key="apartment.id">
-        <Link :href="route('apartments.show', apartment.id)">
-          {{ apartment.name }}
+      <div>
+        <Link v-for="apartment in apartments" :key="apartment.id" :href="route('apartments.show', { apartment: apartment.id })">
+          <ApartmentCard :apartment="apartment"
+            class="mb-4 hover:scale-105 transition-all"/>
         </Link>
-      </li>
-    </ul>
-  </div>
+
+      </div>
+    </div>
+  </GuestLayout>
 </template>

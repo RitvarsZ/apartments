@@ -16,6 +16,15 @@ class ApartmentController extends Controller
         ]);
     }
 
+    public function map()
+    {
+        $apartments = Apartment::all();
+
+        return Inertia::render('Apartments/Map', [
+            'apartments' => $apartments,
+        ]);
+    }
+    
     public function show(Apartment $apartment)
     {
         return Inertia::render('Apartments/Show', [

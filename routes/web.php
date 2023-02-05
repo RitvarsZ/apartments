@@ -17,4 +17,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [ApartmentController::class, 'index'])->name('apartments.index');
+Route::get('/map', [ApartmentController::class, 'map'])->name('apartments.map');
 Route::get('/apartments/{apartment}', [ApartmentController::class, 'show'])->name('apartments.show');
