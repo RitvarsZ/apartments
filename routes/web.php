@@ -18,15 +18,3 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [ApartmentController::class, 'index'])->name('apartments.index');
 Route::get('/apartments/{apartment}', [ApartmentController::class, 'show'])->name('apartments.show');
-
-Route::get('/test/rss', function (RssParserService $rssParserService) {
-    $rss = Feed::loadRss(config('services.ss.feed'));
-
-    dd($rssParserService->parseApartments($rss));
-});
-
-Route::get('/test/geocode', function () {
-    $result = app('geocoder')->geocodeQuery(GeocodeQuery::create('13a, Kuldīgas, Rīga, Latvija')->withLocale('lv')->withLimit(1));
-
-    dd($result);
-});
