@@ -7,11 +7,12 @@ import { usePage } from '@inertiajs/vue3'
 
 const props = defineProps({
   apartments: Array,
+  selectedId: { type: Number, default: null },
 });
 
 const mapboxToken = usePage().props.mapbox.token;
 const mapCenter = ref([24.162616, 56.966349]);
-const mapZoom = ref(7);
+const mapZoom = ref(10);
 const mapboxMap = ref(null);
 const cluster = computed(() => {
   return {
@@ -25,6 +26,7 @@ const cluster = computed(() => {
         },
         properties: {
           id: apartment.id,
+          seenByUser: props.selectedId === apartment.id ? 'selected' : apartment.seen_by_user ? 'true' : 'false',
         },
       };
     }),
@@ -54,13 +56,31 @@ defineEmits(['feature-click']);
         :clusterRadius="20"
         :clustersPaint="{
           'circle-color': '#51bbd6',
-          'circle-radius': 18
+          'circle-radius': 19,
+          'circle-stroke-width': 2,
+          'circle-stroke-color': '#fff',
         }"
         :unclusteredPointPaint="{
-          'circle-color': '#ea473a',
-          'circle-radius': 8,
+          'circle-color': [
+            'match',
+            ['get', 'seenByUser'],
+            'false', '#223b53',
+            'true', '#bbb',
+            'selected', '#51bbd6',
+            /* other */ '#ccc'
+          ],
+          'circle-radius': [
+            'match',
+            ['get', 'seenByUser'],
+            'false',9,
+            'true', 7,
+            'selected', 12,
+            /* other */ 8
+          ],
+          'circle-stroke-width': 1,
+          'circle-stroke-color': '#000',
         }"
-        @mb-cluster-click="(cluster) => { $emit('feature-click', null) }"
+        @mb-cluster-click="(_cluster) => { $emit('feature-click', null) }"
         @mb-feature-click="(feature) => { zoomToFeature(feature); $emit('feature-click', feature.properties.id) }">
       </MapboxCluster>
   </MapboxMap>

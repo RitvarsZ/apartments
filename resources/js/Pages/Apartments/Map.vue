@@ -21,7 +21,7 @@ const selectApartment = (id) => {
 <template>
   <Head title="Karte" />
   <GuestLayout :fullWidth="true">
-    <ApartmentMap :apartments="apartments" @feature-click="selectApartment"/>
+    <ApartmentMap :apartments="apartments" :selectedId="selectedApartment?.id" @feature-click="selectApartment"/>
     <ApartmentPreview :apartment="selectedApartment" @close="selectedApartment = null" />
   </GuestLayout>
 </template>
