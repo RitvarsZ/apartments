@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Apartment;
+use App\Models\ApartmentUser;
+use Auth;
 use Inertia\Inertia;
+use Response;
 
 class ApartmentController extends Controller
 {
     public function index()
     {
-        $apartments = Apartment::all();
+        $apartments = Apartment::orderBy('created_at', 'desc')->get();
 
         return Inertia::render('Apartments/Index', [
             'apartments' => $apartments,
@@ -29,6 +32,34 @@ class ApartmentController extends Controller
     {
         return Inertia::render('Apartments/Show', [
             'apartment' => $apartment,
+        ]);
+    }
+
+    public function seen(Apartment $apartment)
+    {
+        $user = Auth::user();
+        if ($user->seenApartments->contains($apartment)) {
+            return Response::json([
+                'status' => 'success', 
+            ]);
+        }
+
+        $user->seenApartments()->attach($apartment);
+
+        return Response::json([
+            'status' => 'success', 
+        ]);
+    }
+
+    public function favorite(Apartment $apartment)
+    {
+        $user = Auth::user();
+        $is_favorite = $user->favoriteApartments->contains($apartment);
+        $user->seenApartments()->syncWithoutDetaching([$apartment->id => ['is_favorite' => !$is_favorite]]);
+
+        return Response::json([
+            'is_favorite' => !$is_favorite,
+            'status' => 'success', 
         ]);
     }
 }

@@ -41,4 +41,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function seenApartments()
+    {
+        return $this->belongsToMany(Apartment::class)->using(ApartmentUser::class)->withPivot('is_favorite');
+    }
+
+    public function favoriteApartments()
+    {
+        return $this->seenApartments()
+            ->wherePivot('is_favorite', true);
+    }
 }

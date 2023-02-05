@@ -26,7 +26,7 @@ class RssParserTest extends TestCase
         $result = $this->rssParserService->parseDescription($description);
 
         $this->assertEquals('Ziepniekkalns', $result['district']);
-        $this->assertEquals('Vienības g. 126', $result['street']);
+        $this->assertEquals('Vienības gatve 126', $result['street']);
         $this->assertEquals('1', $result['rooms']);
         $this->assertEquals('20', $result['m2']);
         $this->assertEquals('1/1', $result['floor']);

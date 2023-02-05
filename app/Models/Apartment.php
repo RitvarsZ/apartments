@@ -27,4 +27,9 @@ class Apartment extends Model
         'latitude',
         'longitude',
     ];
+
+    public function seenByUsers()
+    {
+        return $this->belongsToMany(User::class)->using(ApartmentUser::class)->withPivot('is_favorite');
+    }
 }
